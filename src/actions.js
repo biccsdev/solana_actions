@@ -2,11 +2,12 @@ import rules from './config.js';
 
 import express from 'express';
 import bodyParser from 'body-parser';
-import { Keypair, Connection, PublicKey, ComputeBudgetProgram, Transaction, TransactionInstruction } from '@solana/web3.js';
-import { createPostResponse, actionCorsMiddleware, ACTIONS_CORS_HEADERS } from "@solana/actions";
+import { clusterApiUrl, Keypair, Connection, PublicKey, ComputeBudgetProgram, Transaction, TransactionInstruction } from '@solana/web3.js';
+import { MEMO_PROGRAM_ID, createPostResponse, actionCorsMiddleware, ACTIONS_CORS_HEADERS } from "@solana/actions";
 import cors from 'cors';
 
 const MemoTx = async (pubkey) => {
+    const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
     const transaction = new Transaction();
     transaction.feePayer = pubkey;
     transaction.add(ComputeBudgetProgram.setComputeUnitPrice({ microLamports: 1000 }),
@@ -81,20 +82,22 @@ app.get('/api/actions/blink', (req, res) => {
     }
 });
 
-app.post('/api/actions/blink', async (req, res) => {
+app.post('/api/actions/send', async (req, res) => {
     const wallet = Keypair.generate();
     const pubkey = wallet.publicKey;
     const tx = await MemoTx(pubkey);
+    console.log('transacion: ', tx)
     // const postRequest = await req.json();
     // const userPubKey = postRequest.account;
-    const payload = await createPostResponse({
-        fields: {
-            transaction: tx,
-            message: `hello `,
-        }
+    // const payload = await createPostResponse({
+    //     fields: {
+    //         tx,
+    //         message: 'hello',
+    //     }
 
-    });
-
+    // });
+    const payload = { tx, message: 'hello' }
+    console.log('payload: ', payload)
     res.setHeader('X-Blockchain-Ids', 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp');
     res.setHeader('X-Action-Version', '0.1');
     res.json(payload);
