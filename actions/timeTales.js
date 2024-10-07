@@ -4,7 +4,7 @@ import Express from 'express';
 import { MEMO_PROGRAM_ID } from "@solana/actions";
 import { Connection, PublicKey, Keypair, Transaction, ComputeBudgetProgram, TransactionInstruction, clusterApiUrl } from '@solana/web3.js';
 
-const test = Express.Router();
+const timeTales = Express.Router();
 const connection = new Connection(clusterApiUrl('devnet'), "confirmed");
 
 const MemoTx = async (pubkey) => {
@@ -19,18 +19,19 @@ const MemoTx = async (pubkey) => {
     return serializedTransaction.toString('base64');
 };
 
-test.get('/api/actions/blink', (req, res) => {
+timeTales.get('/api/actions/blink', (req, res) => {
     try {
         const jsonData = {
             type: "action",
             icon: host + '/start_screen.webp',
-            title: 'Embark on a Journey',
-            description: "Time Tales is an engaging adventure game where your choices shape the storyline. Explore multiple endings and aim for the highest score as you navigate through time and unravel mysteries.",
-            label: "Blink",
+            title: 'Time Tales, Embark on a Journey',
+            description: `Time Tales is an engaging adventure game where your choices shape the storyline. Explore multiple endings and aim for the highest score as you navigate through time and unravel mysteries. \n\n
+            You are Marcus, a curious inventor who stumbles upon a dusty, old machine in your attic. Labeled "Time Twister," it's not just any antique; it's a time machine! With a mix of trepidation and excitement, you decide to take it for a spin...leve`,
+            label: "menu",
             links: {
                 actions: [{
                     label: "Play for 0.01 $SOL",
-                    href: host + "/api/actions/send"
+                    href: host + "/api/actions/pay"
                 }],
             },
             disabled: false,
@@ -46,7 +47,8 @@ test.get('/api/actions/blink', (req, res) => {
     }
 });
 
-test.post('/api/actions/send', async (req, res) => {
+timeTales.post('/api/actions/pay', async (req, res) => {
+    console.log('request: ', req)
     const wallet = Keypair.generate();
     const pubkey = wallet.publicKey;
     const tx = await MemoTx(pubkey);
@@ -58,4 +60,4 @@ test.post('/api/actions/send', async (req, res) => {
     res.json(payload);
 });
 
-export { test }; 
+export { timeTales }; 

@@ -16,7 +16,6 @@ const app = express();
 const PORT = 3000;
 
 const publicDirectory = path.join(__dirname, 'public');
-console.log(publicDirectory)
 app.use(express.static(publicDirectory));
 
 app.use(bodyParser.json());
@@ -32,12 +31,11 @@ app.options('*', cors(
 ));
 app.use(actionCorsMiddleware());
 
-import { test } from './actions/test.js';
-app.use("/", test);
+import { timeTales } from './actions/timeTales.js';
+app.use("/", timeTales);
 
-app.get('/start_screen.webp', (req, res) => {
-    res.sendFile(path.join(publicDirectory, 'start_screen.webp'));
-});
+import { files } from './helpers/files.js';
+app.use("/", files);
 
 app.get("/actions.json", (req, res) => {
     res.send(JSON.stringify(rules));
