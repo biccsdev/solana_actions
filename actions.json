@@ -1,0 +1,8 @@
+{
+  "rules": [
+    {
+      "pathPattern": "/blink",
+      "apiPath": "https://134.122.30.186:3000/api/actions/blink"
+    }
+  ]
+}
