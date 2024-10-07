@@ -24,17 +24,17 @@ test.get('/api/actions/blink', (req, res) => {
         const jsonData = {
             type: "action",
             icon: host + '/start_screen.webp',
-            title: 'Hello World',
-            description: "This is my first blink",
+            title: 'Embark on a Journey',
+            description: "Time Tales is an engaging adventure game where your choices shape the storyline. Explore multiple endings and aim for the highest score as you navigate through time and unravel mysteries.",
             label: "Blink",
             links: {
                 actions: [{
-                    label: "click",
+                    label: "Play for 0.01 $SOL",
                     href: host + "/api/actions/send"
                 }],
             },
             disabled: false,
-            error: { message: "This blink is not implemented yet!" }
+            error: { message: "an error happened, contact @itsbiccs on X." }
         };
 
         res.setHeader('X-Blockchain-Ids', 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp');
