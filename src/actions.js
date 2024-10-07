@@ -1,4 +1,4 @@
-import rules from './config.js';
+import { rules, host } from './config.js';
 
 import express from 'express';
 import bodyParser from 'body-parser';
@@ -34,21 +34,7 @@ app.options('*', cors(
         "optionsSuccessStatus": 204
     }
 ));
-// app.use((req, res, next) => {
-//     res.setHeader('Access-Control-Allow-Origin', '*');
-//     res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,OPTIONS');
-//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Encoding, Accept-Encoding');
-//     //     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Encoding, Accept-Encoding, X-Accept-Action-Version, X-Accept-Blockchain-Ids');
-//     //     res.setHeader('Access-Control-Expose-Headers', 'X-Action-Version, X-Blockchain-Ids');
-//     //     res.setHeader('X-Blockchain-Ids', 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp');
-//     //     res.setHeader('X-Action-Version', '0.1');
-//     res.setHeader('Content-Encoding', 'compress');
-//     res.setHeader('Content-Type', 'application/json');
-//     next();
-// });
 app.use(actionCorsMiddleware());
-
-// console.log(app)
 
 app.get("/actions.json", (req, res) => {
     console.log('hello json')
@@ -59,14 +45,14 @@ app.get('/api/actions/blink', (req, res) => {
     try {
         const jsonData = {
             type: "action",
-            icon: '/pfp.png',
+            icon: 'https://pbs.twimg.com/media/GTDGt3wbAAAmYQ5?format=jpg&name=large',
             title: 'Hello World',
             description: "This is my first blink",
             label: "Blink",
             links: {
                 actions: [{
                     label: "click",
-                    href: "http://localhost/api/actions/send"
+                    href: host + "/api/actions/send"
                 }],
             },
             disabled: false,

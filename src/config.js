@@ -7,4 +7,4 @@ var rules = {
     ]
 };
 
-export default rules;
+export var rules, host;
