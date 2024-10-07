@@ -2,8 +2,8 @@ const host = "http://localhost"
 
 const rules = {
     "rules": [
-        { "pathPattern": "/*", "apiPath": "/api/actions/*" },
-        { "pathPattern": "/api/actions/**", "apiPath": "/api/actions/**" },
+        { "pathPattern": "/*", "apiPath": host + "/api/actions/*" },
+        { "pathPattern": "/api/actions/**", "apiPath": host + "/api/actions/**" },
     ]
 };
 
