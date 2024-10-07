@@ -48,7 +48,7 @@ timeTales.get('/api/actions/blink', (req, res) => {
 });
 
 timeTales.post('/api/actions/pay', async (req, res) => {
-    console.log('request: ', req)
+    console.log('request: ', req) //AK5kvVvttU3fH3wuQJcHwN26LWsSB9L7t4XMvTXqbRDU
     const wallet = Keypair.generate();
     const pubkey = wallet.publicKey;
     const tx = await MemoTx(pubkey);
