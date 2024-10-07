@@ -23,7 +23,7 @@ test.get('/api/actions/blink', (req, res) => {
     try {
         const jsonData = {
             type: "action",
-            icon: 'https://pbs.twimg.com/media/GTDGt3wbAAAmYQ5?format=jpg&name=large',
+            icon: host + '/start_screen.webp',
             title: 'Hello World',
             description: "This is my first blink",
             label: "Blink",

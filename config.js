@@ -1,4 +1,4 @@
-var host = "http://134.122.30.186:3000"
+var host = "https://biccs.dev"
 
 var rules = {
     "rules": [
