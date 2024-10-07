@@ -1,6 +1,6 @@
-const host = "http://localhost"
+var host = "http://localhost"
 
-const rules = {
+var rules = {
     "rules": [
         { "pathPattern": "/*", "apiPath": host + "/api/actions/*" },
         { "pathPattern": "/api/actions/**", "apiPath": host + "/api/actions/**" },
