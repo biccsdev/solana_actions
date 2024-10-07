@@ -36,6 +36,9 @@ test.get('/api/actions/blink', (req, res) => {
             disabled: false,
             error: { message: "This blink is not implemented yet!" }
         };
+
+        res.setHeader('X-Blockchain-Ids', 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp');
+        res.setHeader('X-Action-Version', '0.1');
         res.json(jsonData);
     } catch (error) {
         console.error(error);
@@ -49,6 +52,9 @@ test.post('/api/actions/send', async (req, res) => {
     const tx = await MemoTx(pubkey);
     const payload = { transaction: tx, message: 'hello' }
     console.log(payload);
+
+    res.setHeader('X-Blockchain-Ids', 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp');
+    res.setHeader('X-Action-Version', '0.1');
     res.json(payload);
 });
 
