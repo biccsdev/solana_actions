@@ -89,7 +89,7 @@ timeTales.post('/api/actions/timeTales/pay', async (req, res) => {
             links: {
                 next: {
                     type: 'post',
-                    href: `/api/actions/timeTales/level1`,
+                    href: `/api/actions/timeTales/level?level=1`,
                 },
             },
         },
@@ -106,6 +106,34 @@ timeTales.post('/api/actions/timeTales/pay', async (req, res) => {
     res.json(payload);
 });
 
+timeTales.post('/api/actions/timeTales/level', (req, res) => {
+    const { level, choice } = req.query;
+    try {
+        res.setHeader('X-Blockchain-Ids', 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp');
+        res.setHeader('X-Action-Version', '0.1');
+
+        let href = `/api/actions/timeTales/level${level}`;
+
+        if (choice) {
+            href += `?choice=${encodeURIComponent(choice)}`;
+        }
+
+        res.json({
+            type: 'post',
+            links: {
+                next: {
+                    type: 'post',
+                    href: href,
+                },
+            },
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ message: error });
+    }
+});
+
+
 timeTales.post('/api/actions/timeTales/level1', (req, res) => {
     try {
         const jsonData = {
@@ -117,10 +145,10 @@ timeTales.post('/api/actions/timeTales/level1', (req, res) => {
             links: {
                 actions: [{
                     label: "Go to the Future",
-                    href: host + "/api/actions/timeTales/level2?choice=future"
+                    href: host + "/api/actions/timeTales/level?level=2&choice=future"
                 }, {
                     label: "Go to the Past",
-                    href: host + "/api/actions/timeTales/level2?choice=past"
+                    href: host + "/api/actions/timeTales/level?level=2&choice=past"
                 }],
             },
             disabled: false,
@@ -150,16 +178,16 @@ timeTales.post('/api/actions/timeTales/level2', (req, res) => {
                 links: {
                     actions: [{
                         label: "Go to 2090",
-                        href: host + "/api/actions/timeTales/level3?choice=2090"
+                        href: host + "/api/actions/timeTales/level?level=3&choice=2090"
                     }, {
                         label: "Go to 2069",
-                        href: host + "/api/actions/timeTales/level3?choice=2069"
+                        href: host + "/api/actions/timeTales/level?level=3&choice=2069"
                     }, {
                         label: "Go to 3555",
-                        href: host + "/api/actions/timeTales/level3?choice=3555"
+                        href: host + "/api/actions/timeTales/level?level=3&choice=3555"
                     }, {
                         label: "Go to 5533",
-                        href: host + "/api/actions/timeTales/level3?choice=5533"
+                        href: host + "/api/actions/timeTales/level?level=3&choice=5533"
                     }],
                 },
                 disabled: false,
@@ -176,16 +204,16 @@ timeTales.post('/api/actions/timeTales/level2', (req, res) => {
                 links: {
                     actions: [{
                         label: "Go to 1643",
-                        href: host + "/api/actions/timeTales/level3?choice=1643"
+                        href: host + "/api/actions/timeTales/level?level=3&choice=1643"
                     }, {
                         label: "Go to 1776",
-                        href: host + "/api/actions/timeTales/level3?choice=1776"
+                        href: host + "/api/actions/timeTales/level?level=3&choice=1776"
                     }, {
                         label: "Go to 1969",
-                        href: host + "/api/actions/timeTales/level3?choice=1969"
+                        href: host + "/api/actions/timeTales/level?level=3&choice=1969"
                     }, {
                         label: "Go to 2009",
-                        href: host + "/api/actions/timeTales/level3?choice=2009"
+                        href: host + "/api/actions/timeTales/level?level=3&choice=2009"
                     }],
                 },
                 disabled: false,
@@ -208,6 +236,7 @@ timeTales.post('/api/actions/timeTales/level2', (req, res) => {
 
 timeTales.post('/api/actions/timeTales/level3', (req, res) => {
     const { choice } = req.query;
+    console.log('choice level 3: ', choice)
     let levelData = null;
     switch (choice) {
         case "1963":
