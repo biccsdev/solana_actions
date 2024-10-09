@@ -14,5 +14,8 @@ const files = Express.Router();
 files.get('/start_screen.webp', (req, res) => {
     res.sendFile(path.join(publicDirectory, 'start_screen.webp'));
 });
+files.get('/level1_screen.webp', (req, res) => {
+    res.sendFile(path.join(publicDirectory, 'level1_screen.webp'));
+});
 
 export { files }; 

@@ -1,8 +1,8 @@
 {
   "rules": [
     {
-      "pathPattern": "/blink",
-      "apiPath": "https://biccs.dev/api/actions/blink"
+      "pathPattern": "/timeTales",
+      "apiPath": "https://biccs.dev/api/actions/timeTales"
     }
   ]
 }
