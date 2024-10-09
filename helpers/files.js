@@ -17,5 +17,35 @@ files.get('/start_screen.webp', (req, res) => {
 files.get('/level1_screen.webp', (req, res) => {
     res.sendFile(path.join(publicDirectory, 'level1_screen.webp'));
 });
+files.get('/level2_future_screen.webp', (req, res) => {
+    res.sendFile(path.join(publicDirectory, 'level2_future_screen.webp'));
+});
+files.get('/level2_past_screen.webp', (req, res) => {
+    res.sendFile(path.join(publicDirectory, 'level2_past_screen.webp'));
+});
+files.get('/level3_1643_screen.webp', (req, res) => {
+    res.sendFile(path.join(publicDirectory, 'level3_1643_screen.webp'));
+});
+files.get('/level3_1776_screen.webp', (req, res) => {
+    res.sendFile(path.join(publicDirectory, 'level3_1776_screen.webp'));
+});
+files.get('/level3_1969_screen.webp', (req, res) => {
+    res.sendFile(path.join(publicDirectory, 'level3_1969_screen.webp'));
+});
+files.get('/level3_2009_screen.webp', (req, res) => {
+    res.sendFile(path.join(publicDirectory, 'level3_2009_screen.webp'));
+});
+files.get('/level3_2069_screen.webp', (req, res) => {
+    res.sendFile(path.join(publicDirectory, 'level3_2069_screen.webp'));
+});
+files.get('/level3_2090_screen.webp', (req, res) => {
+    res.sendFile(path.join(publicDirectory, 'level3_2090_screen.webp'));
+});
+files.get('/level3_3555_screen.webp', (req, res) => {
+    res.sendFile(path.join(publicDirectory, 'level3_3555_screen.webp'));
+});
+files.get('/level3_5533_screen.webp', (req, res) => {
+    res.sendFile(path.join(publicDirectory, 'level3_5533_screen.webp'));
+});
 
 export { files }; 
