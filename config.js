@@ -1,9 +1,9 @@
-"use strict";
-import "dotenv/config";
-import fs from "fs";
+// "use strict";
+// import "dotenv/config";
+// import fs from "fs";
 
-var host = "http://localhost";
-// var host = "https://biccs.dev"
+//var host = "http://localhost";
+var host = "https://biccs.dev"
 
 if (host.includes("localhost")) {
     host = host + ":3000";

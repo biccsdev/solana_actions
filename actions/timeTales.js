@@ -26,7 +26,7 @@ timeTales.get('/api/actions/blink', (req, res) => {
             icon: host + '/start_screen.webp',
             title: 'Time Tales, Embark on a Journey',
             description: `Time Tales is an engaging adventure game where your choices shape the storyline. Explore multiple endings and aim for the highest score as you navigate through time and unravel mysteries. \n\n
-            You are Marcus, a curious inventor who stumbles upon a dusty, old machine in your attic. Labeled "Time Twister," it's not just any antique; it's a time machine! With a mix of trepidation and excitement, you decide to take it for a spin...leve`,
+            You are Marcus, a curious inventor who stumbles upon a dusty, old machine in your attic. Labeled "Time Twister," it's not just any antique; it's a time machine! With a mix of trepidation and excitement, you decide to take it for a spin...`,
             label: "menu",
             links: {
                 actions: [{
@@ -48,12 +48,52 @@ timeTales.get('/api/actions/blink', (req, res) => {
 });
 
 timeTales.post('/api/actions/pay', async (req, res) => {
-    console.log('request: ', req) //AK5kvVvttU3fH3wuQJcHwN26LWsSB9L7t4XMvTXqbRDU
-    const wallet = Keypair.generate();
-    const pubkey = wallet.publicKey;
-    const tx = await MemoTx(pubkey);
-    const payload = { transaction: tx, message: 'hello' }
-    console.log(payload);
+    const toPubkey = 'Dip4jcr7QSYsC5H3PB2peFeZpAE6PX9dLz3GMrZqL7C5'
+    const amount = '0.01';
+    const { account } = req.body;
+
+    if (!account) {
+        throw new Error('Invalid "account" provided');
+    }
+
+    const fromPubkey = new PublicKey(account);
+    const minimumBalance = await connection.getMinimumBalanceForRentExemption(
+        0,
+    );
+
+    if (amount * LAMPORTS_PER_SOL < minimumBalance) {
+        throw new Error(`Account may not be rent exempt: ${toPubkey.toBase58()}`);
+    }
+
+    // create an instruction to transfer native SOL from one wallet to another
+    const transferSolInstruction = SystemProgram.transfer({
+        fromPubkey: fromPubkey,
+        toPubkey: toPubkey,
+        lamports: amount * LAMPORTS_PER_SOL,
+    });
+
+    const { blockhash, lastValidBlockHeight } =
+        await connection.getLatestBlockhash();
+
+    // create a legacy transaction
+    const transaction = new Transaction({
+        feePayer: fromPubkey,
+        blockhash,
+        lastValidBlockHeight,
+    }).add(transferSolInstruction);
+
+    const payload = await createPostResponse({
+        fields: {
+            transaction,
+            message: `Send ${amount} SOL to ${toPubkey.toBase58()}`,
+        },
+    });
+
+    // const wallet = Keypair.generate();
+    // const pubkey = wallet.publicKey;
+    // const tx = await MemoTx(pubkey);
+    // const payload = { transaction: tx, message: 'hello' }
+    // console.log(payload);
 
     res.setHeader('X-Blockchain-Ids', 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp');
     res.setHeader('X-Action-Version', '0.1');
