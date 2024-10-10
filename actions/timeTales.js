@@ -95,18 +95,12 @@ timeTales.post('/api/actions/timeTales/pay', async (req, res) => {
         },
     });
 
-    // const wallet = Keypair.generate();
-    // const pubkey = wallet.publicKey;
-    // const tx = await MemoTx(pubkey);
-    // const payload = { transaction: tx, message: 'hello' }
-    // console.log(payload);
-
     res.setHeader('X-Blockchain-Ids', 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp');
     res.setHeader('X-Action-Version', '0.1');
     res.json(payload);
 });
 
-timeTales.post('/api/actions/timeTales/level', (req, res) => {
+timeTales.post('/api/actions/timeTales/level', async (req, res) => {
     const { level, choice } = req.query;
     try {
         res.setHeader('X-Blockchain-Ids', 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp');
@@ -118,15 +112,22 @@ timeTales.post('/api/actions/timeTales/level', (req, res) => {
             href += `?choice=${encodeURIComponent(choice)}`;
         }
 
-        res.json({
-            type: 'post',
-            links: {
-                next: {
-                    type: 'post',
-                    href: href,
+        const transaction = MemoTx(req.body.account)
+
+        const payload = await createPostResponse({
+            fields: {
+                transaction,
+                message: `Going to level ${level}`,
+                links: {
+                    next: {
+                        type: 'post',
+                        href: href,
+                    },
                 },
             },
         });
+
+        res.json(payload);
     } catch (error) {
         console.error(error);
         res.status(400).json({ message: error });
@@ -144,9 +145,11 @@ timeTales.post('/api/actions/timeTales/level1', (req, res) => {
             label: "menu",
             links: {
                 actions: [{
+                    type: 'post',
                     label: "Go to the Future",
                     href: host + "/api/actions/timeTales/level?level=2&choice=future"
                 }, {
+                    type: 'post',
                     label: "Go to the Past",
                     href: host + "/api/actions/timeTales/level?level=2&choice=past"
                 }],
